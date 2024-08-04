@@ -1,0 +1,18 @@
+.navbar .nav-item:hover .nav-link {
+	background-color: white;
+	color: #28a745;
+	border-radius: 15px;
+}
+
+.btn-custom {
+	background-color: #f89820;
+	color: white; /* Optionally set the text color to white */
+	border-color: #f89820; /* Optionally set the border color */
+}
+
+.btn-custom:hover {
+	background-color: #d47b00;
+	/* Optionally change the background color on hover */
+	border-color: #d47b00;
+	/* Optionally change the border color on hover */
+}

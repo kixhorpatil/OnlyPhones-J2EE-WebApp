@@ -1,0 +1,463 @@
+use onlyphones;
+
+CREATE TABLE `mobile_dtls` (
+  `mobileId` INT NOT NULL AUTO_INCREMENT,
+  `mobileName` VARCHAR(100) DEFAULT NULL,
+  `brand` VARCHAR(100) DEFAULT NULL,
+  `price` DECIMAL(10,2) DEFAULT NULL,
+  `mobileCategory` VARCHAR(45) DEFAULT NULL,
+  `status` VARCHAR(45) DEFAULT NULL,
+  `photo` MEDIUMBLOB DEFAULT NULL,
+  `user_email` VARCHAR(100) DEFAULT NULL,
+  PRIMARY KEY (`mobileId`)
+);
+
+CREATE TABLE `cart` (
+  `cid` int NOT NULL AUTO_INCREMENT,
+  `mid` int DEFAULT NULL,
+  `uid` int DEFAULT NULL,
+  `mobileName` varchar(45) DEFAULT NULL,
+  `brand` varchar(45) DEFAULT NULL,
+  `price` double DEFAULT NULL,
+  `total_price` double DEFAULT NULL,
+  PRIMARY KEY (`cid`)
+);
+
+CREATE TABLE `user` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) DEFAULT NULL,
+  `email` varchar(45) DEFAULT NULL,
+  `phno` varchar(45) DEFAULT NULL,
+  `password` varchar(45) DEFAULT NULL,
+  `address` varchar(45) DEFAULT NULL,
+  `landmark` varchar(45) DEFAULT NULL,
+  `city` varchar(45) DEFAULT NULL,
+  `state` varchar(45) DEFAULT NULL,
+  `pincode` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `onlyphones`.`mobile_order` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `order_id` VARCHAR(45) NULL,
+  `user_name` VARCHAR(45) NULL,
+  `email` VARCHAR(45) NULL,
+  `address` VARCHAR(45) NULL,
+  `phno` VARCHAR(45) NULL,
+  `mobile_name` VARCHAR(45) NULL,
+  `brand` VARCHAR(45) NULL,
+  `price` VARCHAR(45) NULL,
+  `payment` VARCHAR(45) NULL,
+  PRIMARY KEY (`id`)
+);
+
+
+
+
+
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Project Begins >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+------------------------------------------------------------ <  #1 Home Page Design  > ------------------------------------------------------------
+
+                                                                    
+
+-> Add the CDN for Bootstrap(CSS and Javascript) and Font Awesome, customize the search button, login and register button, setting and contact us
+
+-> In index.jsp, in the <body> in class describe the back image, then style that back image in css and add image and give dimesions to it. 
+later add all the recent books, new books , old books add breaks(hr) in between them. and add button view all to all
+  <div class="text-center mt-1">
+          <a href="" class="btn btn-danger btn-sm text-white">View All</a> 
+          <!-- buttom-red color button-small button -->
+  </div>
+
+-> <%@include file="all_component/footer.jsp"%> 
+-> with this include tag add footer.jsp 
+
+-> thus we created the front page of the website statically, we will be updating it to dynamic soon
+
+
+
+------------------------------------------------------ <  #2 Register & Login Page Design  > ------------------------------------------------------
+                               
+                                                                    
+
+
+------------------------------------------------------------------- <  #3  > ----------------------------------------------------------------------
+********* Maven Problem with JDK solved **********
+
+It seems like Maven is still unable to find the Java compiler. Let's double-check your Java environment setup.
+
+1. Confirm that you have JDK (Java Development Kit) installed on your system. You can do this by running the command:
+   ```
+   sudo apt list --installed | grep openjdk
+   ```
+   This command should list the installed OpenJDK versions. If not installed, you can install it using:
+   ```
+   sudo apt install openjdk-8-jdk
+   ```
+
+2. After installing the JDK, set the `JAVA_HOME` environment variable to point to the JDK installation directory. 
+   You can do this by adding the following line to your `~/.bashrc` or `~/.bash_profile` file:
+   ```
+   export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+   ```
+   Then, reload the shell configuration:
+   ```
+   source ~/.bashrc		
+   ```
+
+3. After setting the `JAVA_HOME`, verify that it's correctly set by running:
+   ```
+   echo $JAVA_HOME
+   ```
+   It should print the path to your JDK installation directory.
+
+4. Finally, try running `mvn clean package` again in your project directory.
+
+If you've followed these steps and still encounter the same issue, please let me know.
+
+creating data base in mySQL
+
+	CREATE TABLE `book_dtls` (
+	  `bookId` int NOT NULL AUTO_INCREMENT,
+	  `bookName` varchar(45) DEFAULT NULL,
+	  `author` varchar(45) DEFAULT NULL,
+	  `price` varchar(45) DEFAULT NULL,
+	  `bookCategory` varchar(45) DEFAULT NULL,
+	  `status` varchar(45) DEFAULT NULL,
+	  `photo` varchar(45) DEFAULT NULL,
+	  `user_email` varchar(45) DEFAULT NULL,
+	  PRIMARY KEY (`bookId`)
+	)
+
+
+CREATE TABLE `cart` (
+  `cid` int NOT NULL AUTO_INCREMENT,
+  `bid` int DEFAULT NULL,
+  `uid` int DEFAULT NULL,
+  `bookName` varchar(45) DEFAULT NULL,
+  `author` varchar(45) DEFAULT NULL,
+  `price` double DEFAULT NULL,
+  `total_price` double DEFAULT NULL,
+  PRIMARY KEY (`cid`)
+)
+
+
+CREATE TABLE `user` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) DEFAULT NULL,
+  `email` varchar(45) DEFAULT NULL,
+  `phno` varchar(45) DEFAULT NULL,
+  `password` varchar(45) DEFAULT NULL,
+  `address` varchar(45) DEFAULT NULL,
+  `lsndmark` varchar(45) DEFAULT NULL,
+  `city` varchar(45) DEFAULT NULL,
+  `state` varchar(45) DEFAULT NULL,
+  `pincode` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+)
+
+---------------------------------------------------------------------------------------------------------------------------------------------------
+ALTER TABLE `ebook-app`.`new_table` 
+RENAME TO  `ebook-app`.`user` ;
+
+Add the dependency in pom.xml
+
+    <!-- https://mvnrepository.com/artifact/com.mysql/mysql-connector-j -->
+<dependency>
+    <groupId>com.mysql</groupId>
+    <artifactId>mysql-connector-j</artifactId>
+    <version>8.3.0</version>
+</dependency>
+
+
+1.Written DBConnect logic to load the mysql driver and establish the connection between the database and return the connection
+2.Create userDAO interface in which declared the userRegister method which will be implemented to register a user we passes User us object 
+3.Then provided implementation for the userDAO and mapped the data recieved from the frontend and backend with the database
+4.This `RegisterServlet` class serves as a servlet handling HTTP POST requests sent to the "/register" endpoint.
+
+Its main purpose is to process user registration data submitted via a form on a web application. Here's a brief overview of its functionality:
+
+**Receiving Data**: It extracts user registration data such as full name, email, phone number, and password from the HTTP request.
+
+**Creating User Object**: It creates an instance of the `User` class and sets the retrieved data into its corresponding fields.
+
+**Database Interaction**: It interacts with the database using a `UserDAOImpl` object, attempting to register the user by calling the `userRegister` method.
+
+**Session Management**: It manages session attributes to provide feedback to the user about the registration status.
+
+**Error Handling**: It handles exceptions that may occur during the registration process by printing the stack trace.
+
+**Redirection**: It redirects the user to a JSP page (`register.jsp`) after processing the registration request, providing 
+appropriate messages based on the registration status.
+
+In essence, this class orchestrates the registration process, from receiving user input to interacting with the database and providing feedback to the 
+user about the outcome of the registration attempt.                        
+
+
+
+------------------------------------------------------------------- <  #4  > ----------------------------------------------------------------------
+1. creating the admin folder in the webapp, and creating 2 home.jsp file in admin and one in the normal which is for the users
+2. in login.jsp declaring <form action="login" method="post"> & writting the attributes which will be enter while logging name="email" 
+3. Creating the login Servlet and write the logic for admin and users page creation
+4. use DB connect logic to connect to the login page and if the the user info is present inside DB then connect else refresh the page						s	
+ 
+write this inside the index.jsp to check the DBConnection                                                                   
+<%
+	Connection conn = DBConnect.getconn();
+	out.println(conn);
+	%>
+
+------------------------------------------------------------------- <  #5  > ----------------------------------------------------------------------
+Create the UI for the admin UI and redirect the all the add book , all books, orders to their JSP respectively
+
+crease basis UI for the add_books , all_books, orders like form and add data in the code only and don't fetch the data from the DB and Images from the server.
+
+                                                                 
+                                                                    
+                                                                    
+------------------------------------------------------------------- <  #6  > ----------------------------------------------------------------------
+WRITE the logic to for the add_book to add book to the server and database 
+create database connection and use jstl tags 
+
+
+we stored the images in the server(file storage system in real world) instead of the database for the good performance and to avoid complexity                                                                 
+meta uses: tectonic file storage system	
+
+
+In most cases, large companies and organizations store images and videos in file storage systems (such as object storage, content delivery networks, or file systems) 
+rather than directly in a database. Here are some reasons why:
+
+1. **Performance**: Storing large binary files like images and videos directly in a database can degrade performance, especially when retrieving or updating 
+these files frequently. Databases are optimized for structured data and may not handle large binary data efficiently.
+
+2. **Scalability**: File storage systems are often more scalable than databases when it comes to handling large volumes of binary data. They can distribute 
+files across multiple servers and scale horizontally as storage needs grow.
+
+3. **Cost-effectiveness**: Databases typically have higher storage costs compared to file storage systems, especially for large binary data. Storing files in a 
+dedicated file storage solution can be more cost-effective, especially at scale.
+
+4. **Flexibility**: Storing files separately from the database allows for more flexibility in terms of file management, access control, and integration with other 
+systems. File storage systems often provide features like versioning, metadata management, and content delivery capabilities, which may not be available or 
+efficient within a database.
+
+5. **Content Delivery**: For serving images and videos to users over the internet, content delivery networks (CDNs) are often used to cache and distribute files 
+closer to end-users, reducing latency and improving performance. CDNs work best with files stored in file storage systems rather than databases.
+
+That said, there are scenarios where storing binary data in databases may be appropriate, such as when the volume of binary data is relatively small, or when 
+tight integration with other database-managed data is required. However, for large-scale applications with a significant amount of binary data, it's generally 
+recommended to use dedicated file storage solutions.
+
+------------------------------------------------------------------- <  #7  > ----------------------------------------------------------------------
+
+Wrote logic for the all_books when admin add the books it will be visible in All Book in admin web page
+
+				String path = getServletContext().getRealPath("")+"book";
+//	            System.out.println(path);
+//				C:\Dev-workspace\eclipse-workspace\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\Ebook-App\book		
+                                                                                                                                   
+                                                                    
+                                                                    
+                                                                    
+                                                                    
+------------------------------------------------------------------- <  #8  > ----------------------------------------------------------------------
+Worked on Book and Delete button in Admin module on All_Books
+
+created delete and edit servlet and also added method in dao and implemented them with the logic to delete and edit the data from the database
+and used jstl to update the message on the admin ui after delete and updating the data 
+
+converted the id which is string to the integer using the parseInt.  
+                                                                    
+------------------------------------------------------------------- <  #9  > ---------------------------------------------------------------------
+#9 Dynamic Navbar & Logout 
+
+Will copy the modal for logout from the database paste in the navbar.jsp
+
+will copy the data toggle from the modal and paste it at the place of href so that when we click the logout then the modal pops up
+data-toggle="modal"
+	data-target="#exampleModalCenter"
+
+
+after logout we will give the success message on the login page and redirect the user to the login page
+and copy the same logout logic to the home.jsp in the <a><a/> tab 
+
+and later we work on the security of the website, which means we cannot accesss the page direclty with the link without 
+logging into the system, it will redirect it to the login page
+
+------------------------------------------------------------------- <  #10  > ---------------------------------------------------------------------
+#10 User module display book: we will write the logic to dynamically add the book to the UI from the admin
+
+Created	public List<BookDtls> getNewBook(); mthd inside the interface BookDAO and inplemented in the BookDAOImpl
+public List<BookDtls> getNewBook();
+	
+	public List<BookDtls> getRecentBook();
+
+	public List<BookDtls> getOldBook();
+
+
+removed this statically inserted book details
+<div class="col-md-3">
+      <div class="card crd-ho">
+	<div class="card-body text-center">
+	<img src="book/AI.jpg" alt="" style="width: 150px; height: 200px"
+	class="img-thumblin">
+	<p>Artificial Intelligence</p>
+	<p>David Brown</p>
+	<p>Categories: New</p>
+       <div class="row">
+	<a href="" class="btn btn-danger btn-sm ml-3">Cart <i
+	class="fa-solid fa-cart-plus"></i></a> <a href=""
+	class="btn btn-success btn-sm ml-1">View Details</a> <a href=""
+	class="btn btn-danger btn-sm ml-1">299</a>
+	</div>
+	</div>
+	</div>
+	</div><div class="col-md-3">
+	<div class="card crd-ho">
+	<div class="card-body text-center">
+	<img src="book/AI.jpg" alt="" style="width: 150px; height: 200px"
+	class="img-thumblin">
+	<p>Artificial Intelligence</p>
+	<p>David Brown</p>
+	<p>Categories: New</p>
+
+        <div class="row">
+	<a href="" class="btn btn-danger btn-sm ml-3">Cart <i
+	class="fa-solid fa-cart-plus"></i></a> <a href=""
+	class="btn btn-success btn-sm ml-1">View Details</a> <a href=""
+	class="btn btn-danger btn-sm ml-1">299</a>
+	</div>
+	</div>
+	</div>
+	</div>
+
+after adding the for loop in the index.jsp on above code we and using the getMethod() to fetch the data from DB and from the server it will update it on the UI
+any book we will be adding it will be shown first for the we have to use the descending order for bookID DESC in the sql stmt
+
+
+------------------------------------------------------------------- <  #11  > ---------------------------------------------------------------------
+Create AllRecentNewOldBook.jsp file import the navbar and allCSS files
+then write the this three method in the BookDAO and implement it inside the BookDAOImpl class                                               
+public List<BookDtls> getAllRecentBook();
+
+	public List<BookDtls> getAllNewBook();
+
+	public List<BookDtls> getAllOldBook();
+                                                                                                                                        
+                                                   
+After writing implementation logic we can see the book with respect to their categories etc in the navbar, and alse redirected
+the view all to their respective navbar tab                 
+                                                                    
+------------------------------------------------------------------- <  #12  > ---------------------------------------------------------------------
+#12 Display Book Details
+
+writing logic for the view details button when we press it it will open new jsp page view_books page which will have the further
+information about the book
+
+getting id for the book details in the URL and writing method in the BookDAO to which will be implemented and
+the data will be fetched from the database and will be displayed on the UI based on the ID
+                                                                
+and redirect the continue shopping for the old video in to the index page
+                                                                    
+                                                                    
+                                                                    
+------------------------------------------------------------------- <  #13  > ---------------------------------------------------------------------
+ #13 Add to cart module: If the user is logged in then redirect him to the add to cart session
+
+if the user is not logged in then redirect him to the log in session  
+cid
+uid
+bid
+book_name
+author
+price
+
+created the cart entity declared the variable and generated the getters and setters
+
+Create the cartDAO in the DAO package and declared the method and implemented them in the cardDAOImpl 
+
+showed the toast message when clicked on add to cart button, and remove the toast when not in the session                                     
+                                                                    
+                                                                    
+------------------------------------------------------------------- <  #14  > ---------------------------------------------------------------------
+#14 Dynamic navbar
+
+created dynamic navbar to show the navbar after the user is logged in. 
+added cart logo to the navbar
+created cart.jsp to redirect adter clicking on the cart. where our selected items will be seen and user details will be displayed
+
+and redirected the logout button to the LogoutServlet Url logout.                                                            
+                                                                    
+------------------------------------------------------------------- <  #15  > ---------------------------------------------------------------------
+#15 Cart module book Display
+
+show the message after removing the book, make sure that the book is remove for the particular with his uid&&bud
+map the remove servlet url to the remove button
+
+fetch the data from the user object for display the name phno and email on the user detail form on the checkout page                                                 
+                                                                    
+                                                                                                        
+------------------------------------------------------------------- <  #16  > ---------------------------------------------------------------------
+#16 Setting page design
+
+Did design of all the 5 pages for the setting module, hasdcoding is done for each page
+                                                                                                                                      
+                                                                    
+------------------------------------------------------------------- <  #17  > ---------------------------------------------------------------------
+#17 Old book sell module
+writing logic so that no one can access the page directly with the URL
+writing logic to update the book to be sold from the particular user
+show the message after the book is updated to sell 
+upon clicking the view details button the old books  it should display the view details                                                                   
+                                                                    
+                                                                    
+------------------------------------------------------------------- <  #18  > ---------------------------------------------------------------------
+#18 Old book Module 
+
+-> if the user has updated the book to sell and it is bought by someone else then it should be deleted from the 
+current user and others home page portal                            
+                                                                    
+-> Created the list of old book page where all the book added by the user to sell will be displayed 
+   and added a button to remove the sold buttom when the book is sold by creating the servlet for it 
+   it will remove the book by considering the email and bookId
+   
+-> Also the book added will be updated in to the database with considering the email and fetched also with the  
+   with the help of email	                                            
+                  
+------------------------------------------------------------------- <  #19  > ---------------------------------------------------------------------
+#19 Edit User profile                                             
+
+Created book_order table
+
+made changes in to the edit page button such that while entering the updated details we have to check enter the 
+correct password to update the record, so it will check the password with the logged in userID if it matched 
+then the user can update the details else error comes in
+                                                                                                                             
+------------------------------------------------------------------- <  #20  > ---------------------------------------------------------------------
+#20 Book Order Placed Module                                      
+                                                                    
+getting all the data from the cart the details entered by the user to order the book and will keep all the data
+into the server                                                                 
+                                                                    
+
+name="username" -> checkout.jsp
+String name = req.getParameter("username"): ->OrderServlet.java
+                                                                    
+------------------------------------------------------------------- <  #21  > ---------------------------------------------------------------------
+#21 Display Book Order User and Admin Module
+                                                                    
+                                                                    
+                                                                    
+                                                                    
+------------------------------------------------------------------- <  #22  > ---------------------------------------------------------------------
+#22 Search Book and Unique user register module                                               
+                                                                    
+                                                                    
+                                                                    
+---------------------------------------------------------Project complete review ---------------------------------------------------------------------
+
+                                                              
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
