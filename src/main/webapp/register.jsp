@@ -90,7 +90,6 @@
 
    <!-- Footer -->
 	<div class="footer">
-		<%-- Including common footer --%>
 		<%@include file="all_component/footer.jsp"%>
 	</div>
 
